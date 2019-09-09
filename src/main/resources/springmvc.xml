@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+	<!-- 扫描注解 -->
+	<context:component-scan
+		base-package="cn.hyb.controller"></context:component-scan>
+	<!-- 注解驱动 -->
+	<mvc:annotation-driven></mvc:annotation-driven>
+	<!-- 静态资源 -->
+	<mvc:resources location="/js/" mapping="/js/**"></mvc:resources>
+	<mvc:resources location="/img/" mapping="/img/**"></mvc:resources>
+	<mvc:resources location="/bimg/" mapping="/bimg/**"></mvc:resources>
+	<mvc:resources location="/css/" mapping="/css/**"></mvc:resources>
+	<mvc:resources location="/files/" mapping="/files/**"></mvc:resources>
+	<mvc:resources location="/headpic/" mapping="/headpic/**"></mvc:resources>
+	<mvc:resources location="/bg/" mapping="/bg/**"></mvc:resources>
+	
+	<!--指定http返回编码格式
+		<mvc:message-converters>
+			<bean
+				class="org.springframework.http.converter.StringHttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>text/html;charset=UTF-8</value>
+						<value>application/json;charset=UTF-8</value>
+						<value>*/*;charset=UTF-8</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven> -->
+	 <!-- multipart解析器 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	    <!-- 设置上传文件最大尺寸，单位为B 5242880为5M-->
+	    <property name="maxUploadSize" value="5242880" />
+    </bean>
+    <!-- 1.在文件上传解析时发现异常，此时还没有进入到Controller方法中 -->
+	<bean id="exceptionResolver" class= "org.springframework.web.servlet.handler.SimpleMappingExceptionResolver"> 
+	    <property name="exceptionMappings"> 
+	        <props> 
+	        <!-- 遇到MaxUploadSizeExceededException异常时，跳转到error.jsp页面  -->
+	        <prop key= "org.springframework.web.multipart.MaxUploadSizeExceededException">/error </prop> 
+	        </props> 
+	    </property>
+	</bean>
+</beans>

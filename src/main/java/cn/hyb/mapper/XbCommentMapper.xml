@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.hyb.mapper.XbCommentMapper" >
+  <resultMap id="BaseResultMap" type="cn.hyb.pojo.XbComment" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="sendtime" property="sendtime" jdbcType="TIMESTAMP" />
+    <result column="passer_id" property="passerId" jdbcType="INTEGER" />
+    <result column="article_id" property="articleId" jdbcType="INTEGER" />
+    <result column="comment_id" property="commentId" jdbcType="INTEGER" />
+    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+    <result column="ex" property="ex" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="cn.hyb.pojo.XbComment" extends="BaseResultMap" >
+    <result column="words" property="words" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, sendtime, passer_id, article_id, comment_id, parent_id, ex
+  </sql>
+  <sql id="Blob_Column_List" >
+    words
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="cn.hyb.pojo.XbCommentExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from xb_comment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.hyb.pojo.XbCommentExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from xb_comment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from xb_comment
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from xb_comment
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.hyb.pojo.XbCommentExample" >
+    delete from xb_comment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.hyb.pojo.XbComment" >
+    insert into xb_comment (id, sendtime, passer_id, 
+      article_id, comment_id, parent_id, 
+      ex, words)
+    values (#{id,jdbcType=INTEGER}, #{sendtime,jdbcType=TIMESTAMP}, #{passerId,jdbcType=INTEGER}, 
+      #{articleId,jdbcType=INTEGER}, #{commentId,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, 
+      #{ex,jdbcType=INTEGER}, #{words,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.hyb.pojo.XbComment" >
+    insert into xb_comment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="sendtime != null" >
+        sendtime,
+      </if>
+      <if test="passerId != null" >
+        passer_id,
+      </if>
+      <if test="articleId != null" >
+        article_id,
+      </if>
+      <if test="commentId != null" >
+        comment_id,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="ex != null" >
+        ex,
+      </if>
+      <if test="words != null" >
+        words,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sendtime != null" >
+        #{sendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="passerId != null" >
+        #{passerId,jdbcType=INTEGER},
+      </if>
+      <if test="articleId != null" >
+        #{articleId,jdbcType=INTEGER},
+      </if>
+      <if test="commentId != null" >
+        #{commentId,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="ex != null" >
+        #{ex,jdbcType=INTEGER},
+      </if>
+      <if test="words != null" >
+        #{words,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.hyb.pojo.XbCommentExample" resultType="java.lang.Integer" >
+    select count(*) from xb_comment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update xb_comment
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.sendtime != null" >
+        sendtime = #{record.sendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.passerId != null" >
+        passer_id = #{record.passerId,jdbcType=INTEGER},
+      </if>
+      <if test="record.articleId != null" >
+        article_id = #{record.articleId,jdbcType=INTEGER},
+      </if>
+      <if test="record.commentId != null" >
+        comment_id = #{record.commentId,jdbcType=INTEGER},
+      </if>
+      <if test="record.parentId != null" >
+        parent_id = #{record.parentId,jdbcType=INTEGER},
+      </if>
+      <if test="record.ex != null" >
+        ex = #{record.ex,jdbcType=INTEGER},
+      </if>
+      <if test="record.words != null" >
+        words = #{record.words,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update xb_comment
+    set id = #{record.id,jdbcType=INTEGER},
+      sendtime = #{record.sendtime,jdbcType=TIMESTAMP},
+      passer_id = #{record.passerId,jdbcType=INTEGER},
+      article_id = #{record.articleId,jdbcType=INTEGER},
+      comment_id = #{record.commentId,jdbcType=INTEGER},
+      parent_id = #{record.parentId,jdbcType=INTEGER},
+      ex = #{record.ex,jdbcType=INTEGER},
+      words = #{record.words,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update xb_comment
+    set id = #{record.id,jdbcType=INTEGER},
+      sendtime = #{record.sendtime,jdbcType=TIMESTAMP},
+      passer_id = #{record.passerId,jdbcType=INTEGER},
+      article_id = #{record.articleId,jdbcType=INTEGER},
+      comment_id = #{record.commentId,jdbcType=INTEGER},
+      parent_id = #{record.parentId,jdbcType=INTEGER},
+      ex = #{record.ex,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.hyb.pojo.XbComment" >
+    update xb_comment
+    <set >
+      <if test="sendtime != null" >
+        sendtime = #{sendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="passerId != null" >
+        passer_id = #{passerId,jdbcType=INTEGER},
+      </if>
+      <if test="articleId != null" >
+        article_id = #{articleId,jdbcType=INTEGER},
+      </if>
+      <if test="commentId != null" >
+        comment_id = #{commentId,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="ex != null" >
+        ex = #{ex,jdbcType=INTEGER},
+      </if>
+      <if test="words != null" >
+        words = #{words,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="cn.hyb.pojo.XbComment" >
+    update xb_comment
+    set sendtime = #{sendtime,jdbcType=TIMESTAMP},
+      passer_id = #{passerId,jdbcType=INTEGER},
+      article_id = #{articleId,jdbcType=INTEGER},
+      comment_id = #{commentId,jdbcType=INTEGER},
+      parent_id = #{parentId,jdbcType=INTEGER},
+      ex = #{ex,jdbcType=INTEGER},
+      words = #{words,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.hyb.pojo.XbComment" >
+    update xb_comment
+    set sendtime = #{sendtime,jdbcType=TIMESTAMP},
+      passer_id = #{passerId,jdbcType=INTEGER},
+      article_id = #{articleId,jdbcType=INTEGER},
+      comment_id = #{commentId,jdbcType=INTEGER},
+      parent_id = #{parentId,jdbcType=INTEGER},
+      ex = #{ex,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
